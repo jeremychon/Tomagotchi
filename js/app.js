@@ -10,4 +10,9 @@ class Tomagotchi {
 	}
 }
 
-const tomagotchi = new Tomagotchi();
+
+const game = {
+	createPlayer () {
+		const tomagotchi = new Tomagotchi();
+	}
+}
