@@ -25,30 +25,38 @@ h2 {
 	flex-wrap: wrap;
 }
 
-#display {
+#screen {
 	background-color: white;
 	width: 400px;
-	height: 430px;
+	height: 360px;
+	margin: 20px 0 0 0;
 	display: flex;
-	align-content: flex-end;
+}
+
+#petInfo {
+	font-family: 'Montserrat', sans-serif;
+	width: 400px;
+	background-color: rgba(235, 186, 65);
+	margin: 0;
+	font-size: 15px;
+	display: flex;
 	flex-wrap: wrap;
 }
 
-#petInfo, #petNameAndAge {
+.displayInfo {
 	height: 40px;
-	width: 400px;
-	background-color: rgba(235, 186, 65);
+	width: 133px;
 	font-size: 15px;
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: center;
 }
 
 .buttons {
 	background-color: rgb(230, 233, 237);
 	height: 80px;
 	width: 80px;
-	margin: 0 0 25px 0;
+	margin: 20px 0 20px 0;
 	border-radius: 50px;
 	display: flex;
 	justify-content: center;

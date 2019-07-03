@@ -13,17 +13,18 @@ class Tamagotchi {
 
 const game = {
 
-	timer: 0,
+	time: 0,
 
 	createPet () {
 		// shows the pet's info in the bottom of the display
 		this.displayPetInfo(name);
 
-
+		// this.setTimer()
 	},
 
 	clearInputField () {
 		$('#inputName').remove();
+		$('span').remove();
 	},
 
 	chooseDisplayColor () {
@@ -36,8 +37,12 @@ const game = {
 		const tamagotchi = new Tamagotchi(name);
 		console.log(tamagotchi);
 
-		$('#petNameAndAge').text(`Name: ${tamagotchi.name} Age: ${tamagotchi.age}`)
-		$('#petInfo').text(`Hunger: ${tamagotchi.hunger} Sleepiness: ${tamagotchi.sleepiness} Boredom: ${tamagotchi.boredom}`)
+		$('#petName').text(`Name: ${tamagotchi.name}`) 
+		$('#petAge').text(`Age: ${tamagotchi.age}`)
+		$('#time').text(`Time: 0`)
+		$('#petHunger').text(`Hunger: ${tamagotchi.hunger}`)
+		$('#petSleep').text(`Sleepiness: ${tamagotchi.sleepiness}`)
+		$('#petPlay').text(`Boredom: ${tamagotchi.boredom}`)
 	},
 
 	useButtons (button) {
@@ -48,6 +53,20 @@ const game = {
 		} else if (button.text() === "Play") {
 			console.log(`Let's go play!`);
 		}
+	},
+
+	setTimer () {
+		const timer = setInterval( () => {
+			this.time++;
+
+			$('#time').text(`Time: ${this.time}s`)
+
+			// set hunger schedule
+
+			// set sleepiness schedule
+
+			// set boredom schedule
+		}, 1000)
 	}
 }
 
@@ -75,6 +94,7 @@ $('#addName').on('submit', (e) => {
 	e.preventDefault();
 	const $input = $(e.target[0]).val()
 	game.displayPetInfo($input)
+	game.setTimer();
 })
 
 // feed pet, turn off lights, play with pet

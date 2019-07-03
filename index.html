@@ -7,7 +7,7 @@
 </head>
 <body>
 
-	<h2>Welcome! Let's make a Tamagotchi!</h2>
+	<h2>Welcome! <span>Let's make a Tamagotchi!</span></h2>
 
 	<form id="addName">
 		<input type="text" name="inputName" id="inputName" placeholder="Give your pet a name!">
@@ -16,9 +16,14 @@
 	<br />
 
 	<div id="container">
-		<div id="display">
-			<div id="petNameAndAge"></div>
-			<div id="petInfo"></div>
+		<div id="screen"></div>
+		<div id="petInfo">
+			<div class="displayInfo" id="petName"></div>
+			<div class="displayInfo" id="petAge"></div>
+			<div class="displayInfo" id="time"></div>
+			<div class="displayInfo" id="petHunger"></div>
+			<div class="displayInfo" id="petSleep"></div>
+			<div class="displayInfo" id="petPlay"></div>
 		</div>
 		<div class="buttons" id="feed">Feed</div>
 		<div class="buttons" id="lights">Lights</div>
