@@ -9,24 +9,18 @@ class Tamagotchi {
 		this.sleepiness = 0;
 	}
 
-	attrOverTime () {
-		if (game.time % 5 === 0 && game.time !== 0) {
-			this.age += 1;
-			$('#petAge').text(`Age: ${this.age}`)
-			console.log(this.age);
-		}
+	createPet (name) {
+		
+		game.clearInputField()
+
+		$('#petName').text(`Name: ${this.name}`) 
+		$('#petAge').text(`Age: ${this.age}`)
+		$('#time').text(`Time: 0`)
+		$('#petHunger').text(`Hunger: ${this.hunger}`)
+		$('#petSleep').text(`Sleepiness: ${this.sleepiness}`)
+		$('#petPlay').text(`Boredom: ${this.boredom}`)
 	}
 
-	// displayPetInfo (name) {
-	// 	game.clearInputField()
-
-	// 	$('#petName').text(`Name: ${this.name}`) 
-	// 	$('#petAge').text(`Age: ${this.age}`)
-	// 	$('#time').text(`Time: 0`)
-	// 	$('#petHunger').text(`Hunger: ${this.hunger}`)
-	// 	$('#petSleep').text(`Sleepiness: ${this.sleepiness}`)
-	// 	$('#petPlay').text(`Boredom: ${this.boredom}`)
-	// }
 }
 
 
@@ -37,22 +31,33 @@ const game = {
 		minutes: 0,
 		seconds: 0
 	},
-	pet: [],
+	pet: null,
+	isAlive: false,
 
-	createPet (name) {
+	petGame (name) {
 		const tamagotchi = new Tamagotchi(name);
 		console.log(tamagotchi);
-		
-		this.clearInputField()
 
-		$('#petName').text(`Name: ${tamagotchi.name}`) 
-		$('#petAge').text(`Age: ${tamagotchi.age}`)
-		$('#time').text(`Time: 0`)
-		$('#petHunger').text(`Hunger: ${tamagotchi.hunger}`)
-		$('#petSleep').text(`Sleepiness: ${tamagotchi.sleepiness}`)
-		$('#petPlay').text(`Boredom: ${tamagotchi.boredom}`)
+		tamagotchi.createPet(name);
 
-		this.pet.push(tamagotchi)
+		this.pet = tamagotchi
+		this.isAlive = true; 
+
+		this.setTimer();
+	},
+
+	isDead () {
+		if(this.pet.hunger >= 10 || this.pet.boredom >= 10 || this.pet.sleepiness >= 10) {
+			this.isAlive = false
+		}
+	},
+
+ 	petDies () {
+		if (this.isAlive === true) {
+			console.log(`${this.pet.name} is alive!`);
+		} else {
+			console.log(`${this.pet.name} is dead!`);
+		}
 	},
 
 	clearInputField () {
@@ -68,19 +73,19 @@ const game = {
 		// if 'Feed' button is pressed, hunger will go down by 3
 		if (button.text() === "Feed") {
 			console.log('Thanks for the food!');
-			this.pet[0].hunger -= 3
-			$('#petHunger').text(`Hunger: ${this.pet[0].hunger}`)
+			this.pet.hunger -= 3
+			$('#petHunger').text(`Hunger: ${this.pet.hunger}`)
 
 		// if 'Lights' button is pressed, sleepiness will go down by 2
 		} else if (button.text() === "Lights") {
 			console.log('Time to go to sleep!');
-			this.pet[0].sleepiness -= 2
-			$('#petSleep').text(`Sleepiness: ${this.pet[0].sleepiness}`)
+			this.pet.sleepiness -= 2
+			$('#petSleep').text(`Sleepiness: ${this.pet.sleepiness}`)
 
 		// if 'Play' button is pressed, boredom will go down by 3
 		} else if (button.text() === "Play") {
 			console.log(`Let's go play!`);
-			this.pet[0].boredom -= 3
+			this.pet.boredom -= 3
 			$('#petPlay').text(`Boredom: ${this.pet[0].boredom}`)
 		}
 	},
@@ -90,39 +95,47 @@ const game = {
 			// increase timer -- shows hours, minutes, and seconds
 			this.time.seconds++;
 
+			// every 60 seconds, increase the minute by 1
 			if (this.time.seconds === 60) {
 				this.time.minutes++
 				this.time.seconds = 0;
 			}
 
+			// every 60 minutes, increase the hour by 1
 			if (this.time.minutes === 60) {
 				this.time.hours++
 			}
 
+			// display the time as such 0h 0m 0s
 			$('#time').text(`Time: ${this.time.hours}h ${this.time.minutes}m ${this.time.seconds}s`)
 
 			// increases age every certain amount of seconds
 			if (this.time.seconds % 5 === 0) {
-				this.pet[0].age++
-				$('#petAge').text(`Age: ${this.pet[0].age}`)
+				this.pet.age++
+				$('#petAge').text(`Age: ${this.pet.age}`)
 			}
-			// set hunger schedule
+			// increase hunger level over time
 			if (this.time.seconds % 3 === 0) {
-				this.pet[0].hunger++
-				$('#petHunger').text(`Hunger: ${this.pet[0].hunger}`)	
+				this.pet.hunger++
+				$('#petHunger').text(`Hunger: ${this.pet.hunger}`)	
 			}
 
-			// set sleepiness schedule
-			if (this.time.seconds % 2 === 0) {
-				this.pet[0].sleepiness++
-				$('#petSleep').text(`Sleepiness: ${this.pet[0].sleepiness}`)	
+			// increase sleepiness level over time
+			if (this.time.seconds % 1 === 0) {
+				this.pet.sleepiness++
+				console.log(this.pet.sleepiness);
+				$('#petSleep').text(`Sleepiness: ${this.pet.sleepiness}`)	
 			}
 
-			// set boredom schedule
+			// increase boredom level over time
 			if (this.time.seconds % 4 === 0) {
-				this.pet[0].boredom++
-				$('#petPlay').text(`Boredom: ${this.pet[0].boredom}`)	
+				this.pet.boredom++
+				$('#petPlay').text(`Boredom: ${this.pet.boredom}`)	
 			}
+
+			this.isDead();
+			this.petDies();
+
 		}, 1000)
 	}
 }
@@ -147,8 +160,7 @@ const game = {
 $('#addName').on('submit', (e) => {
 	e.preventDefault();
 	const $input = $(e.target[0]).val()
-	game.createPet($input)
-	game.setTimer();
+	game.petGame($input)
 })
 
 // feed pet, turn off lights, play with pet

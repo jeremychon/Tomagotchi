@@ -1,19 +1,21 @@
 body {
 	background-color: rgb(251, 204, 167);
+	font-family: 'Raleway', sans-serif;
+
 }
 
 input {
 	font-size: 20px;
-	font-family: 'Montserrat', sans-serif;
+	/*font-family: 'Montserrat', sans-serif;*/
 
 }
 
 h2 {
-	font-family: 'Montserrat', sans-serif;
+	/*font-family: 'Montserrat', sans-serif;*/
 }
 
 #container {
-	font-family: 'Montserrat', sans-serif;
+	/*font-family: 'Montserrat', sans-serif;*/
 	background-color: rgba(80, 99, 128);
 	width: 450px;
 	height: 580px;
@@ -34,7 +36,7 @@ h2 {
 }
 
 #petInfo {
-	font-family: 'Montserrat', sans-serif;
+	/*font-family: 'Montserrat', sans-serif;*/
 	width: 400px;
 	background-color: rgba(235, 186, 65);
 	margin: 0;
