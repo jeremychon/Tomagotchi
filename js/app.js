@@ -12,20 +12,42 @@ class Tamagotchi {
 
 
 const game = {
-	createPet (name) {
-		this.clearInputField();
 
-		// give the pet a name
-		const tamagotchi = new Tamagotchi(name);
-		console.log(tamagotchi);
+	timer: 0,
 
-		$('#name').append(tamagotchi.name)
+	createPet () {
+		// shows the pet's info in the bottom of the display
+		this.displayPetInfo(name);
 
 
 	},
 
-	clearInputField() {
-		$('#inputName').val('')
+	clearInputField () {
+		$('#inputName').remove();
+	},
+
+	chooseDisplayColor () {
+		// let user choose color of display when picking name
+	},
+
+	displayPetInfo (name) {
+		this.clearInputField()
+
+		const tamagotchi = new Tamagotchi(name);
+		console.log(tamagotchi);
+
+		$('#petNameAndAge').text(`Name: ${tamagotchi.name} Age: ${tamagotchi.age}`)
+		$('#petInfo').text(`Hunger: ${tamagotchi.hunger} Sleepiness: ${tamagotchi.sleepiness} Boredom: ${tamagotchi.boredom}`)
+	},
+
+	useButtons (button) {
+		if (button.text() === "Feed") {
+			console.log('Thanks for the food!');
+		} else if (button.text() === "Lights") {
+			console.log('Time to go to sleep!');
+		} else if (button.text() === "Play") {
+			console.log(`Let's go play!`);
+		}
 	}
 }
 
@@ -46,12 +68,22 @@ const game = {
 
 
 
-// listeners
+// LISTENERS
+
 // listens to the form to add the name of the pet
 $('#addName').on('submit', (e) => {
 	e.preventDefault();
 	const $input = $(e.target[0]).val()
-	game.createPet($input)
+	game.displayPetInfo($input)
 })
 
 // feed pet, turn off lights, play with pet
+$('.buttons').on('click', (e) => {
+	const $buttonClicked = $(e.target);
+
+	game.useButtons($buttonClicked);
+
+
+})
+
+
