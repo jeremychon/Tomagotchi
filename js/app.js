@@ -32,7 +32,11 @@ class Tamagotchi {
 
 const game = {
 
-	time: 0,
+	time: {
+		hours: 0,
+		minutes: 0,
+		seconds: 0
+	},
 	pet: [],
 
 	createPet (name) {
@@ -83,19 +87,42 @@ const game = {
 
 	setTimer () {
 		const timer = setInterval( () => {
-			this.time++;
+			// increase timer -- shows hours, minutes, and seconds
+			this.time.seconds++;
 
-			$('#time').text(`Time: ${this.time}s`)
+			if (this.time.seconds === 60) {
+				this.time.minutes++
+				this.time.seconds = 0;
+			}
 
-			// set hunger schedule
-			if (this.time % 5 === 0) {
+			if (this.time.minutes === 60) {
+				this.time.hours++
+			}
+
+			$('#time').text(`Time: ${this.time.hours}h ${this.time.minutes}m ${this.time.seconds}s`)
+
+			// increases age every certain amount of seconds
+			if (this.time.seconds % 5 === 0) {
 				this.pet[0].age++
 				$('#petAge').text(`Age: ${this.pet[0].age}`)
 			}
+			// set hunger schedule
+			if (this.time.seconds % 3 === 0) {
+				this.pet[0].hunger++
+				$('#petHunger').text(`Hunger: ${this.pet[0].hunger}`)	
+			}
 
 			// set sleepiness schedule
+			if (this.time.seconds % 2 === 0) {
+				this.pet[0].sleepiness++
+				$('#petSleep').text(`Sleepiness: ${this.pet[0].sleepiness}`)	
+			}
 
 			// set boredom schedule
+			if (this.time.seconds % 4 === 0) {
+				this.pet[0].boredom++
+				$('#petPlay').text(`Boredom: ${this.pet[0].boredom}`)	
+			}
 		}, 1000)
 	}
 }
