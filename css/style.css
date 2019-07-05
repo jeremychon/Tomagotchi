@@ -38,9 +38,9 @@ h2 {
 }
 
 #babyDinosaur {
-	height: 350px;
-	width: 300px;
-	clip: 0 0 700px 0;
+	height: 150px;
+	width: 120px;
+	margin: 0 0 5px 0;
 }
 
 #petInfo {

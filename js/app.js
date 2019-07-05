@@ -53,6 +53,19 @@ class Tamagotchi {
 		this.age += 1
 	}
 
+ 	petDies () {
+		if (this.isAlive === true) {
+			console.log(`${this.name} is alive!`);
+		} else {
+			console.log(`${this.name} is dead!`);
+
+			clearInterval(game.intervalID)
+
+			const $gameOverTag = $('<div/>').text("GAME OVER!");
+
+			$('#screen').append($gameOverTag)
+		}
+	}
 }
 
 
@@ -80,14 +93,6 @@ const game = {
 	isDead () {
 		if(this.pet.hunger >= 10 || this.pet.boredom >= 10 || this.pet.sleepiness >= 10) {
 			this.pet.isAlive = false
-		}
-	},
-
- 	petDies () {
-		if (this.pet.isAlive === true) {
-			console.log(`${this.pet.name} is alive!`);
-		} else {
-			console.log(`${this.pet.name} is dead!`);
 		}
 	},
 
@@ -144,7 +149,7 @@ const game = {
 
 			this.printStats()
 			this.isDead();
-			this.petDies();
+			this.pet.petDies();
 
 		}, 1000)
 	}
