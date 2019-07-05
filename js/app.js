@@ -7,9 +7,10 @@ class Tamagotchi {
 		this.hunger = 0;
 		this.boredom = 0;
 		this.sleepiness = 0;
+		this.isAlive = true
 	}
 
-	createPet (name) {
+	createPet () {
 		
 		game.clearInputField()
 
@@ -19,6 +20,37 @@ class Tamagotchi {
 		$('#petHunger').text(`Hunger: ${this.hunger}`)
 		$('#petSleep').text(`Sleepiness: ${this.sleepiness}`)
 		$('#petPlay').text(`Boredom: ${this.boredom}`)
+	}
+
+	feed () {
+		this.hunger -= 1
+		game.printStats()
+	}
+
+	sleep () {
+		this.sleepiness -= 3
+		game.printStats()
+	}
+
+	play () {
+		this.boredom -= 2
+		game.printStats()
+	}
+
+	getHungry () {
+		this.hunger += 2
+	}
+
+	getSleepy () {
+		this.sleepiness += 3
+	}
+
+	getBored () {
+		this.boredom += 2
+	}
+
+	getOlder () {
+		this.age += 1
 	}
 
 }
@@ -32,28 +64,27 @@ const game = {
 		seconds: 0
 	},
 	pet: null,
-	isAlive: false,
+	intervalID: null,
 
 	petGame (name) {
 		const tamagotchi = new Tamagotchi(name);
-		console.log(tamagotchi);
 
-		tamagotchi.createPet(name);
+		tamagotchi.createPet();
 
 		this.pet = tamagotchi
-		this.isAlive = true; 
+		console.log(this.pet);
 
 		this.setTimer();
 	},
 
 	isDead () {
 		if(this.pet.hunger >= 10 || this.pet.boredom >= 10 || this.pet.sleepiness >= 10) {
-			this.isAlive = false
+			this.pet.isAlive = false
 		}
 	},
 
  	petDies () {
-		if (this.isAlive === true) {
+		if (this.pet.isAlive === true) {
 			console.log(`${this.pet.name} is alive!`);
 		} else {
 			console.log(`${this.pet.name} is dead!`);
@@ -65,33 +96,19 @@ const game = {
 		$('span').remove();
 	},
 
-	chooseDisplayColor () {
-		// let user choose color of display when picking name
-	},
+	// chooseDisplayColor () {
+	// 	// let user choose color of display when picking name
+	// },
 
-	useButtons (button) {
-		// if 'Feed' button is pressed, hunger will go down by 3
-		if (button.text() === "Feed") {
-			console.log('Thanks for the food!');
-			this.pet.hunger -= 3
-			$('#petHunger').text(`Hunger: ${this.pet.hunger}`)
-
-		// if 'Lights' button is pressed, sleepiness will go down by 2
-		} else if (button.text() === "Lights") {
-			console.log('Time to go to sleep!');
-			this.pet.sleepiness -= 2
-			$('#petSleep').text(`Sleepiness: ${this.pet.sleepiness}`)
-
-		// if 'Play' button is pressed, boredom will go down by 3
-		} else if (button.text() === "Play") {
-			console.log(`Let's go play!`);
-			this.pet.boredom -= 3
-			$('#petPlay').text(`Boredom: ${this.pet[0].boredom}`)
-		}
+	printStats() {
+		$('#petPlay').text(`Boredom: ${this.pet.boredom}`)
+		$('#petHunger').text(`Hunger: ${this.pet.hunger}`)
+		$('#petSleep').text(`Sleepiness: ${this.pet.sleepiness}`)
+		$('#petAge').text(`Age: ${this.pet.age}`)
 	},
 
 	setTimer () {
-		const timer = setInterval( () => {
+		this.intervalID = setInterval( () => {
 			// increase timer -- shows hours, minutes, and seconds
 			this.time.seconds++;
 
@@ -109,49 +126,29 @@ const game = {
 			// display the time as such 0h 0m 0s
 			$('#time').text(`Time: ${this.time.hours}h ${this.time.minutes}m ${this.time.seconds}s`)
 
-			// increases age every certain amount of seconds
 			if (this.time.seconds % 5 === 0) {
-				this.pet.age++
-				$('#petAge').text(`Age: ${this.pet.age}`)
-			}
-			// increase hunger level over time
-			if (this.time.seconds % 3 === 0) {
-				this.pet.hunger++
-				$('#petHunger').text(`Hunger: ${this.pet.hunger}`)	
+				this.pet.getOlder()
 			}
 
-			// increase sleepiness level over time
 			if (this.time.seconds % 1 === 0) {
-				this.pet.sleepiness++
-				console.log(this.pet.sleepiness);
-				$('#petSleep').text(`Sleepiness: ${this.pet.sleepiness}`)	
+				this.pet.getHungry()
 			}
 
-			// increase boredom level over time
-			if (this.time.seconds % 4 === 0) {
-				this.pet.boredom++
-				$('#petPlay').text(`Boredom: ${this.pet.boredom}`)	
+			if (this.time.seconds % 2 === 0) {
+				this.pet.getSleepy()
 			}
 
+			if (this.time.seconds % 3 === 0) {
+				this.pet.getBored()
+			}
+
+			this.printStats()
 			this.isDead();
 			this.petDies();
 
 		}, 1000)
 	}
 }
-
-// game object will run the game
-
-// create a tomagotchi pet to play with
-
-	// picture of tomagotchi will appear (hopefully moving)
-
-// pet's age will increase over time
-	// pet will change appearance over time
-// pet's hunger boredom and sleepiness will increase over time
-// pet dies if any of these 3 become 10
-
-
 
 
 // LISTENERS
@@ -167,9 +164,18 @@ $('#addName').on('submit', (e) => {
 $('.buttons').on('click', (e) => {
 	const $buttonClicked = $(e.target);
 
-	game.useButtons($buttonClicked);
+	console.log($buttonClicked);
 	
-
+	// either feed, turn off the lights, or play with your pet
+	if ($buttonClicked.text() === "Feed") {
+		game.pet.feed();
+	}
+	if ($buttonClicked.text() === "Lights") {
+		game.pet.sleep()
+	}
+	if ($buttonClicked.text() === "Play") {
+		game.pet.play()
+	}
 
 })
 
