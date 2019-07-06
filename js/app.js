@@ -22,6 +22,10 @@ class Tamagotchi {
 		$('#petPlay').text(`Boredom: ${this.boredom}`)
 	}
 
+	walk () {
+		$('#babyDinosaur').flip();
+	}
+
 	feed () {
 		this.hunger -= 1
 		game.printStats()
@@ -38,11 +42,12 @@ class Tamagotchi {
 	}
 
 	getHungry () {
-		this.hunger += 2
+		this.hunger += 5;
+		// $('#babyDinosaur').attr("src", "https://previews.123rf.com/images/lineartestpilot/lineartestpilot1603/lineartestpilot160327531/53954680-freehand-speech-bubble-textured-cartoon-hungry-dinosaur.jpg");
 	}
 
 	getSleepy () {
-		this.sleepiness += 3
+		this.sleepiness += 1
 	}
 
 	getBored () {
@@ -51,6 +56,14 @@ class Tamagotchi {
 
 	getOlder () {
 		this.age += 1
+
+		// if (this.age === 5) {
+		// 	$('#babyDinosaur').attr('src', 'first evolution')
+		// }
+
+		// if (this.age === 10) {
+		// 	$('#babyDinosaur').attr('src', 'last evolution')
+		// }
 	}
 
  	petDies () {
@@ -59,11 +72,32 @@ class Tamagotchi {
 		} else {
 			console.log(`${this.name} is dead!`);
 
+
 			clearInterval(game.intervalID)
 
 			const $gameOverTag = $('<div/>').text("GAME OVER!");
+			$gameOverTag.css({
+				backgroundColor: "rgba(0, 0, 0)",
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+				alignSelf: "center",
+				color: "white",
+				fontSize: "45px",
+				width: "400px",
+				height: "360px",
+				animation: "fadein 3s",
+				zIndex: "2",
+				position: "absolute"
+			})
 
 			$('#screen').append($gameOverTag)
+
+			$('#babyDinosaur').css({
+				transform: "rotate(90deg)"
+			})
+
+			$('#babyDinosaur').fadeOut(2000)
 		}
 	}
 }
@@ -131,7 +165,7 @@ const game = {
 			// display the time as such 0h 0m 0s
 			$('#time').text(`Time: ${this.time.hours}h ${this.time.minutes}m ${this.time.seconds}s`)
 
-			if (this.time.seconds % 5 === 0) {
+			if (this.time.minutes % 2 === 0 && this.time.minutes !== 0) {
 				this.pet.getOlder()
 			}
 
@@ -139,11 +173,11 @@ const game = {
 				this.pet.getHungry()
 			}
 
-			if (this.time.seconds % 2 === 0) {
+			if (this.time.minutes % 1 === 0 && this.time.minutes !== 0) {
 				this.pet.getSleepy()
 			}
 
-			if (this.time.seconds % 3 === 0) {
+			if (this.time.seconds % 30 === 0) {
 				this.pet.getBored()
 			}
 

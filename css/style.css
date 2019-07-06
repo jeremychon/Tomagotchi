@@ -34,13 +34,27 @@ h2 {
 	margin: 20px 0 0 0;
 	display: flex;
 	justify-content: center;
-	align-items: flex-end;
 }
 
 #babyDinosaur {
 	height: 150px;
 	width: 120px;
-	margin: 0 0 5px 0;
+	margin: 0 0 2px 0;
+	display: flex;
+	align-self: flex-end;
+	z-index: 1;
+	position: absolute;
+	animation: jump 3s ease infinite;
+	transform-origin: bottom;
+}
+
+@keyframes jump {
+	0%	{transform: scale(1,1)      translateY(0); }
+    10%	{transform: scale(1.1,.9)   translateY(0); }
+    30%	{transform: scale(.9,1.1)   translateY(-100px); }
+    50%	{transform: scale(1.05,.95) translateY(0); }
+    100% {transform: scale(1,1)      translateY(0); }
+    }
 }
 
 #petInfo {
@@ -73,3 +87,7 @@ h2 {
 	align-items: center;
 }
 
+@keyframes fadein {
+ 	from {opacity: 0;}
+ 	to {opacity: 1;}
+ }
