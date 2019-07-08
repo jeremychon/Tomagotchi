@@ -220,15 +220,15 @@ const game = {
 				this.pet.getOlder()
 			}
 
-			if (this.time.seconds % 5 === 0) {
+			if (this.time.seconds % 2 === 0) {
 				this.pet.getHungry()
 			}
 
-			if (this.time.seconds % 10 === 0) {
+			if (this.time.seconds % 3 === 0) {
 				this.pet.getSleepy()
 			}
 
-			if (this.time.seconds % 3 === 0) {
+			if (this.time.seconds % 1 === 0) {
 				this.pet.getBored()
 			}
 
