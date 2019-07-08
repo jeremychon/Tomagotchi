@@ -216,19 +216,19 @@ const game = {
 			// display the time as such 0h 0m 0s
 			$('#time').text(`Time: ${this.time.hours}h ${this.time.minutes}m ${this.time.seconds}s`)
 
-			if (this.time.seconds % 2 === 0) {
+			if (this.time.seconds % 3 === 0) {
 				this.pet.getOlder()
 			}
 
-			if (this.time.seconds % 30 === 0 && this.time.minutes !== 0) {
+			if (this.time.seconds % 5 === 0) {
 				this.pet.getHungry()
 			}
 
-			if (this.time.seconds % 15 === 0) {
+			if (this.time.seconds % 10 === 0) {
 				this.pet.getSleepy()
 			}
 
-			if (this.time.seconds % 45 === 0) {
+			if (this.time.seconds % 3 === 0) {
 				this.pet.getBored()
 			}
 
@@ -260,7 +260,7 @@ $('.buttons').on('click', (e) => {
 	if ($buttonClicked.text() === "Feed") {
 		game.pet.feed();
 	}
-	if ($buttonClicked.text() === "Lights") {
+	if ($buttonClicked.text() === "Sleep") {
 		game.pet.sleep()
 	}
 	if ($buttonClicked.text() === "Play") {
