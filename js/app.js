@@ -22,10 +22,12 @@ class Tamagotchi {
 		$('#petPlay').text(`Boredom: ${this.boredom}`)
 	}
 
+	// feeds the pet
 	feed () {
 		this.hunger -= 3
 		game.printStats()
 		$('#character').removeClass('anim');
+		// use old bear eating then after 5 secs old bear standing
 		if (this.age >= 5) {
 			$('#character').attr("src", "images/bear-drawings/bear-old-eat.png");
 			setTimeout ( () => {
@@ -34,6 +36,7 @@ class Tamagotchi {
 					width: "120px"
 				})
 			}, 5000)
+		// use young bear eating then after 5 secs young bear standing
 		} else {
 			$('#character').attr("src", "images/bear-drawings/bear-young-eat.png");
 			setTimeout( () => {
@@ -42,10 +45,12 @@ class Tamagotchi {
 		}
 	}
 
+	// puts the pet to sleep
 	sleep () {
 		this.sleepiness -= 2
 		game.printStats()
 		$('#character').removeClass('anim');
+		// use old bear sleeping then after 5 secs old bear standing
 		if (this.age >= 5) {
 			$('#character').attr("src", "images/bear-drawings/bear-old-sleep.png").css({
 				height: "160px",
@@ -57,6 +62,7 @@ class Tamagotchi {
 					width: "120px"
 				})
 			}, 5000)
+		// use young bear sleeping then after 5 secs young bear standing
 		} else {
 			$('#character').attr("src", "images/bear-drawings/bear-young-sleep.png").css({
 				height: "160px",
@@ -68,10 +74,12 @@ class Tamagotchi {
 		}
 	}
 
+	// plays with the pet
 	play () {
 		this.boredom -= 2
 		game.printStats()
 
+		// use old bear playing then after 5 secs old bear standing
 		if (this.age >= 5) {
 			$('#character').attr("src", "images/bear-drawings/bear-old-play.png")
 			setTimeout ( () => {
@@ -80,6 +88,7 @@ class Tamagotchi {
 					width: "120px"
 				})
 			}, 5000)
+		// use young bear playing then after 5 secs young bear standing
 		} else {
 			$('#character').attr("src", "images/bear-drawings/bear-young-play1.png");
 			setTimeout( () => {
@@ -103,6 +112,7 @@ class Tamagotchi {
 	getOlder () {
 		this.age += 1
 
+		// change bear from young to old at age 5
 		if (this.age === 5) {
 			$('#character').attr('src', 'images/bear-drawings/bear-drawing.png').css({
 				height: "200px",
@@ -120,6 +130,7 @@ class Tamagotchi {
 
 			clearInterval(game.intervalID)
 
+			// displays that the game is over
 			const $gameOverTag = $('<div/>').text("GAME OVER!");
 			$gameOverTag.css({
 				backgroundColor: "rgba(0, 0, 0)",
