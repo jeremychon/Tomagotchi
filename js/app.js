@@ -98,15 +98,15 @@ class Tamagotchi {
 	}
 
 	getHungry () {
-		this.hunger += 4;
+		this.hunger += 2;
 	}
 
 	getSleepy () {
-		this.sleepiness += 3;
+		this.sleepiness += 1;
 	}
 
 	getBored () {
-		this.boredom += 2
+		this.boredom += 1;
 	}
 
 	getOlder () {
