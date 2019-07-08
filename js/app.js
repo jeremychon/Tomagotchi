@@ -22,32 +22,78 @@ class Tamagotchi {
 		$('#petPlay').text(`Boredom: ${this.boredom}`)
 	}
 
-	walk () {
-		$('#babyDinosaur').flip();
-	}
-
 	feed () {
-		this.hunger -= 1
+		this.hunger -= 3
 		game.printStats()
+		$('#character').removeClass('anim');
+		if (this.age >= 5) {
+			$('#character').attr("src", "images/bear-drawings/bear-old-eat.png");
+			setTimeout ( () => {
+				$('#character').attr('src', 'images/bear-drawings/bear-drawing.png').addClass('anim').css({
+					height: "200px",
+					width: "120px"
+				})
+			}, 5000)
+		} else {
+			$('#character').attr("src", "images/bear-drawings/bear-young-eat.png");
+			setTimeout( () => {
+				$('#character').attr("src", "images/bear-drawings/bear-young.png").addClass('anim');
+			}, 5000)	
+		}
 	}
 
 	sleep () {
-		this.sleepiness -= 3
+		this.sleepiness -= 2
 		game.printStats()
+		$('#character').removeClass('anim');
+		if (this.age >= 5) {
+			$('#character').attr("src", "images/bear-drawings/bear-old-sleep.png").css({
+				height: "160px",
+				width: "240px"
+			});
+			setTimeout ( () => {
+				$('#character').attr('src', 'images/bear-drawings/bear-drawing.png').addClass('anim').css({
+					height: "200px",
+					width: "120px"
+				})
+			}, 5000)
+		} else {
+			$('#character').attr("src", "images/bear-drawings/bear-young-sleep.png").css({
+				height: "160px",
+				width: "240px"
+			});
+			setTimeout( () => {
+				$('#character').attr("src", "images/bear-drawings/bear-young.png").addClass('anim');
+			}, 5000)	
+		}
 	}
 
 	play () {
 		this.boredom -= 2
 		game.printStats()
+
+		if (this.age >= 5) {
+			$('#character').attr("src", "images/bear-drawings/bear-old-play.png")
+			setTimeout ( () => {
+				$('#character').attr('src', 'images/bear-drawings/bear-drawing.png').addClass('anim').css({
+					height: "200px",
+					width: "120px"
+				})
+			}, 5000)
+		} else {
+			$('#character').attr("src", "images/bear-drawings/bear-young-play1.png");
+			setTimeout( () => {
+				$('#character').attr("src", "images/bear-drawings/bear-young.png").addClass('anim');
+			}, 5000)	
+		}
 	}
 
 	getHungry () {
-		this.hunger += 5;
-		// $('#babyDinosaur').attr("src", "https://previews.123rf.com/images/lineartestpilot/lineartestpilot1603/lineartestpilot160327531/53954680-freehand-speech-bubble-textured-cartoon-hungry-dinosaur.jpg");
+		this.hunger += 4;
 	}
 
 	getSleepy () {
-		this.sleepiness += 1
+		this.sleepiness += 3;
 	}
 
 	getBored () {
@@ -57,13 +103,12 @@ class Tamagotchi {
 	getOlder () {
 		this.age += 1
 
-		// if (this.age === 5) {
-		// 	$('#babyDinosaur').attr('src', 'first evolution')
-		// }
-
-		// if (this.age === 10) {
-		// 	$('#babyDinosaur').attr('src', 'last evolution')
-		// }
+		if (this.age === 5) {
+			$('#character').attr('src', 'images/bear-drawings/bear-drawing.png').css({
+				height: "200px",
+				width: "120px"
+			})
+		}
 	}
 
  	petDies () {
@@ -81,7 +126,6 @@ class Tamagotchi {
 				display: "flex",
 				justifyContent: "center",
 				alignItems: "center",
-				alignSelf: "center",
 				color: "white",
 				fontSize: "45px",
 				width: "400px",
@@ -93,11 +137,7 @@ class Tamagotchi {
 
 			$('#screen').append($gameOverTag)
 
-			$('#babyDinosaur').css({
-				transform: "rotate(90deg)"
-			})
-
-			$('#babyDinosaur').fadeOut(2000)
+			$('#character').fadeOut(2000)
 		}
 	}
 }
@@ -165,19 +205,19 @@ const game = {
 			// display the time as such 0h 0m 0s
 			$('#time').text(`Time: ${this.time.hours}h ${this.time.minutes}m ${this.time.seconds}s`)
 
-			if (this.time.minutes % 2 === 0 && this.time.minutes !== 0) {
+			if (this.time.seconds % 2 === 0) {
 				this.pet.getOlder()
 			}
 
-			if (this.time.seconds % 1 === 0) {
+			if (this.time.seconds % 30 === 0 && this.time.minutes !== 0) {
 				this.pet.getHungry()
 			}
 
-			if (this.time.minutes % 1 === 0 && this.time.minutes !== 0) {
+			if (this.time.seconds % 15 === 0) {
 				this.pet.getSleepy()
 			}
 
-			if (this.time.seconds % 30 === 0) {
+			if (this.time.seconds % 45 === 0) {
 				this.pet.getBored()
 			}
 
